@@ -1,0 +1,294 @@
+# <a name="GP4020 MPC Settings for the _Sig"></a> GP4020 MPC Settings for the SigTec MG5001 Receiver
+
+- Assumes the GP4020 is being clocked at the default rate of 20MHz (50ns/instr.)
+
+## <a name="GP4020 Memory Area 1 (0x0000 000"></a> GP4020 Memory Area 1 (0x0000 0000 - 1FFF FFFF)
+
+- Purpose: External ROM
+- Device: Atmel [[AM29LV200BB]]-70EC: 2Mb (256KB) CMOS Flash, Boot code sector architecture: bottom, 70ns, 48pin TSOP, 0 - 70 degC
+  - Valid address range: 0x0000 0000 - 0x003F FFFF (0x6000 0000 - 0x0603F FFFF if swapped with Memory Area 4; see below)
+- Configuration Register Address: 0xE000 8000
+- Default (reset) value: 0xFF00 0035
+- Here's what I think the settings should be:
+
+<table border=1 cellpadding=0 cellspacing=0>
+  <tr>
+    <th bgcolor="#99CCCC"><strong> Bit Field name </strong></th>
+    <th bgcolor="#99CCCC"><strong> Bit Position </strong></th>
+    <th bgcolor="#99CCCC"><strong> On Reset Value </strong></th>
+    <th bgcolor="#99CCCC"><strong> Setting </strong></th>
+    <th bgcolor="#99CCCC"><strong> Description </strong></th>
+  </tr>
+  <tr>
+    <td> Access Waits </td>
+    <td> 31:28 </td>
+    <td> 1111 </td>
+    <td> 0020 </td>
+    <td> 70ns Flash access time </td>
+  </tr>
+  <tr>
+    <td> Stop Waits </td>
+    <td> 27:24 </td>
+    <td> 1111 </td>
+    <td> 0000 </td>
+    <td> 30ns off-bus time </td>
+  </tr>
+  <tr>
+    <td> Reserved </td>
+    <td> 23:08 </td>
+    <td> 0..0 </td>
+    <td> 0..0 </td>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td> Configuration Mode </td>
+    <td> 07:06 </td>
+    <td> 00 </td>
+    <td> 00 </td>
+    <td> Stay in the old &quot;Butterfly&quot; config mode </td>
+  </tr>
+  <tr>
+    <td> Wait Control </td>
+    <td> 05 </td>
+    <td> 1 </td>
+    <td> 1 </td>
+    <td> Wait states controlled by MPC, not SWAIT signal. </td>
+  </tr>
+  <tr>
+    <td> Read-Only Status </td>
+    <td> 04 </td>
+    <td> 1 </td>
+    <td> 1 </td>
+    <td> Disable writes; looks like ROM </td>
+  </tr>
+  <tr>
+    <td> Sub-memory Write Status </td>
+    <td> 03 </td>
+    <td> 0 </td>
+    <td> 0 </td>
+    <td> Disable sub-memory width writes </td>
+  </tr>
+  <tr>
+    <td> Access Type </td>
+    <td> 02 </td>
+    <td> 1 </td>
+    <td> 1 </td>
+    <td> Memory access type </td>
+  </tr>
+  <tr>
+    <td> Data Size </td>
+    <td> 01:00 </td>
+    <td> 01 </td>
+    <td> 01 </td>
+    <td> Half word memory device </td>
+  </tr>
+</table>
+
+<font> _(Note: 03:00 = 0101 implies a 16bit memory without 8 bit writes)_ </font>
+
+- And the hex value for this is: 0x0000 0035
+
+## <a name="GP4020 Memory Area 2 (0x2000 000"></a> GP4020 Memory Area 2 (0x2000 0000 - 0x3FFF FFFF)
+
+- Purpose: External RAM
+- Device: ISSI [[IS61LV12816]]-12T: 2Mb (256KB) CMOS static RAM, 12ns, 44pin TSOP-2, 0 - 70 deg C
+  - Valid address range: 0x2000 0000 - 0x203F FFFF
+- Configuration Register Address: 0xE000 8004
+- Default (reset) value: 0xFF00 0034
+- Here's what I think the settings should be:
+
+<table border=1 cellpadding=0 cellspacing=0>
+  <tr>
+    <th bgcolor="#99CCCC"><strong> Bit Field name </strong></th>
+    <th bgcolor="#99CCCC"><strong> Bit Position </strong></th>
+    <th bgcolor="#99CCCC"><strong> On Reset Value </strong></th>
+    <th bgcolor="#99CCCC"><strong> Setting </strong></th>
+    <th bgcolor="#99CCCC"><strong> Description </strong></th>
+  </tr>
+  <tr>
+    <td> Access Waits </td>
+    <td> 31:28 </td>
+    <td> 1111 </td>
+    <td> 0000 </td>
+    <td> 12ns SRAM access time </td>
+  </tr>
+  <tr>
+    <td> Stop Waits </td>
+    <td> 27:24 </td>
+    <td> 1111 </td>
+    <td> 0000 </td>
+    <td> 12ns off-bus time </td>
+  </tr>
+  <tr>
+    <td> Reserved </td>
+    <td> 23:08 </td>
+    <td> 0..0 </td>
+    <td> 0..0 </td>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td> Configuration Mode </td>
+    <td> 07:06 </td>
+    <td> 00 </td>
+    <td> 01 </td>
+    <td> Go to new &quot;firefly&quot; config mode </td>
+  </tr>
+  <tr>
+    <td> Wait Control </td>
+    <td> 05 </td>
+    <td> 1 </td>
+    <td> 1 </td>
+    <td> Wait states controlled by MPC, not SWAIT signal. </td>
+  </tr>
+  <tr>
+    <td> Read-Only Status </td>
+    <td> 04 </td>
+    <td> 1 </td>
+    <td> 0 </td>
+    <td> Not read-only </td>
+  </tr>
+  <tr>
+    <td> Sub-memory Write Status </td>
+    <td> 03 </td>
+    <td> 0 </td>
+    <td> 1 </td>
+    <td> Access Sub Memory Type 0 </td>
+  </tr>
+  <tr>
+    <td> Access Type </td>
+    <td> 02 </td>
+    <td> 1 </td>
+    <td> 0 </td>
+    <td> Access Sub Memory Type 1 </td>
+  </tr>
+  <tr>
+    <td> Data Size </td>
+    <td> 01:00 </td>
+    <td> 00 </td>
+    <td> 01 </td>
+    <td> Data Size = 16 bits </td>
+  </tr>
+</table>
+
+<font> _(Note: 03:00 = 1001 implies a 16bit memory with 8 bit writes)_ </font>
+
+- And the hex value for this is: 0x0000 0069
+
+## <a name="GP4020 Memory Area 3 (0x4000 000"></a> GP4020 Memory Area 3 (0x4000 0000 - 0x5FFF FFFF)
+
+- Purpose: Internal Peripherals (and possibly external devices as well)
+- Device: CORR, 1PPS, SCG, RTC, and PCL peripherals
+- Configuration Register Address: 0xE000 8008
+- Default (reset) value: 0xFF00 0034
+- Page 111 of GP4020 data sheet basically says to set this register to 0x3303 306E
+
+## <a name="GP4020 Memory Area 4 (0x6000 000"></a> GP4020 Memory Area 4 (0x6000 0000 - 0x7FFF FFFF)
+
+- Purpose: Internal RAM
+- Device: High speed internal 8KB (32 x 2KB) SRAM
+  - Valid address range: 0x6000 0000 - 0x6000 1FFF (0x0000 0000 - 0x0000 1FFF if swapped with Memory Area 1; see below)
+- Configuration Register Address: 0xE000 800C
+- Default (reset) value: 0xFF00 0034
+- Here's what I think the settings should be:
+
+<table border=1 cellpadding=0 cellspacing=0>
+  <tr>
+    <th bgcolor="#99CCCC"><strong> Bit Field name </strong></th>
+    <th bgcolor="#99CCCC"><strong> Bit Position </strong></th>
+    <th bgcolor="#99CCCC"><strong> On Reset Value </strong></th>
+    <th bgcolor="#99CCCC"><strong> Setting </strong></th>
+    <th bgcolor="#99CCCC"><strong> Description </strong></th>
+  </tr>
+  <tr>
+    <td> Access Waits </td>
+    <td> 31:28 </td>
+    <td> 1111 </td>
+    <td> 0000 </td>
+    <td> No wait states </td>
+  </tr>
+  <tr>
+    <td> Stop Waits </td>
+    <td> 27:24 </td>
+    <td> 1111 </td>
+    <td> 0000 </td>
+    <td> No wait states </td>
+  </tr>
+  <tr>
+    <td> Reserved </td>
+    <td> 23:08 </td>
+    <td> 0..0 </td>
+    <td> 0..0 </td>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td> Configuration Mode </td>
+    <td> 07:06 </td>
+    <td> 00 </td>
+    <td> 01 </td>
+    <td> Go to new config mode </td>
+  </tr>
+  <tr>
+    <td> Wait Control </td>
+    <td> 05 </td>
+    <td> 1 </td>
+    <td> 1 </td>
+    <td> Wait states controlled by MPC, not SWAIT signal. </td>
+  </tr>
+  <tr>
+    <td> Read-Only Status </td>
+    <td> 04 </td>
+    <td> 1 </td>
+    <td> 0 </td>
+    <td> Enabled writes </td>
+  </tr>
+  <tr>
+    <td> Sub-memory Write Status </td>
+    <td> 03 </td>
+    <td> 0 </td>
+    <td> 1 </td>
+    <td> Enable sub-memory width writes </td>
+  </tr>
+  <tr>
+    <td> Access Type </td>
+    <td> 02 </td>
+    <td> 1 </td>
+    <td> 1 </td>
+    <td> Memory access type </td>
+  </tr>
+  <tr>
+    <td> Data Size </td>
+    <td> 01:00 </td>
+    <td> 00 </td>
+    <td> 10 </td>
+    <td> 32 bit or any sub-width </td>
+  </tr>
+</table>
+
+<font> _(Note: 03:00 = 1110 implies a 32bit memory with 8 and 16 bit writes)_ </font>
+
+- And the hex value for this is: 0x0000 006E
+
+## <a name="Swapping Memory Area 1 and 4"></a> Swapping Memory Area 1 and 4
+
+You can swap Memory Area 1 (the slow Flash) with Memory Area 4 (the fast internal SRAM) in order to speed up interrupts (since the interrupt vector table is located clear to 0x0000 0000). To do this, set bit 0 in the **System Configuartion Register** which on the GP4020 is address 0xE000 2004. To undo the swap, just clear the bit. Be sure not to affect the bits in the SCR, which control interrupt and DMA priority levels. For more information see page 24 in the [[FireFly]] MF1 Core Design Document.
+
+**_WARNING:_** On page 16 of that same document it mentions that the MPC bits might need to be changed if the Memory Area 1 / Memory Area 4 swap is done - is this true? If so, if this isn't done it'll screw everything up on the transition.
+
+----
+
+## <a name="Old notes, misc:"></a> Old notes, misc:
+
+20bit address (SADD[0-19]), 16bits data (SDATA[0-15]) and control lines:
+
+- NSCS[0,1,2A] chip selects
+- NSWE[0-1] write enable (2 so you can use 8bit devices)
+- NSOE Output Enable (usual "CS" line)
+- SWAIT INPUT: waot isgnal
+- NSUB "Select Upper Byte": selects which byte to write to for byte operations
+
+Area 1 - External ROM (or Internal boot loader if MULTI\_FNIO is high) 2 - External RAM 3 - Internal peripherals (CORR, 1PPS, SCG, RTC, PCL) and possibly external RAM 4 - Internal SRAM (8KB)
+
+Firefly Internal control lines: NCS[0-3] (Not Chip Select) External Chip selects: NSCS[0,1,2A] (Not System? Chip Select)

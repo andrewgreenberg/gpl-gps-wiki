@@ -1,0 +1,23 @@
+# <a name="Open GNSS Projects at ION GNSS 2"></a> Open GNSS Projects at ION GNSS 2005
+
+Doug Baker, owner of [GPS Creations](http://www.gpscreations.com/), sponsored an Open Source GPS booth at [ION's GNSS 2005 conference](http://www.ion.org/meetings/#gnss). Dr. Cliff Kelley presented [OpenSource GPS](http://home.earthlink.net/~cwkelley) and Takuji Ebinuma and I presented GPL-GPS. We were in [booth #912](http://www.ion.org/meetings/gnss2005_exlist.html) which is a standard 10' x 10' booth on the very right of the exhibit space.
+
+It was great fun! We met and explained open GNSS projects to hundreds of people, got some great contacts, and finally were able to meet people in person. The contributors in open source communities are often broadly located, and this was no exception: Japan, Germany, and from all over the US (California, Oregon, Texas, Colorado for example)... so it was even more fun for us all to get together.
+
+<div>
+  <center>[[IonGnss2005/osgps_booth_at_ion_gnss_2005.JPG]]</center>
+</div>
+
+On Thursday evening, about 20 of us met in room 104 to discuss open GNSS projects. We discussed each of our projects, and decided:
+
+1. To have a [[page which lists all open source and open hardware GNSS projects|OpenGnssProjects]].
+2. To have a ["community discussion" mailing list](http://lists.psas.pdx.edu/mailman/listinfo/opengnss) for all open GNSS projects.
+3. To go to dinner.
+
+We adjourned after a bit and headed down the Long Beach pier to a restaurant for drinks and food. I think a lot of good came out of that dinner - people got a chance to discuss more technical issues about open source, and get a feeling for who was interested in doing what.
+
+I think this conference might have really launched the open GNSS community for real: with four papers published, a booth, and a lot more people aware of our project, I think we're on a roll.
+
+See everyone next year!
+
+_PS. If anyone has pictures of Thursday night's meeting and dinner, please email them to me!_

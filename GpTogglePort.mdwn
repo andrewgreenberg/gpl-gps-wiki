@@ -1,0 +1,41 @@
+# <a name="GpTogglePort"></a> [[GpTogglePort]]
+
+<div>
+  <center>[[GpTogglePort/gptoggleport_oscope.jpg]]</center>
+</div>
+
+## <a name="Intro"></a> Intro
+
+"Bootstrapping" has a dark and hideous connotation to those in the embedded community. It's a fun process, but with a new tool chain, a new processor, new hardware, it can be a complete nightmare. So where do you start on a system, especially one as complicated as a GP4020-based receiver and the GNU toolchain?
+
+Heck, exactly where you would expect: toggle a port pin!
+
+## <a name="Overview"></a> Overview
+
+In this case, we'll be toggling GPIO[7] (pin 91) on the GP4020. The ARM7 assembly code that will toggle that GPIO pin will be compiled into an object file using the GNU assembler AS (as called by gcc), and then turned into a binary file using objdump. Then we'll edit that binary file to add three header bytes for the GP4020's bootloader, and then we'll dump it over the serial port and run it on the GP4020.
+
+## <a name="What You&#39;ll Need"></a> What You'll Need
+
+- The gnu cross-compiling toolset. In particular, I installed eCos (<http://sources.redhat.com/ecos>) and the GNU toolset for ARM came for free! I'd recommend it as a cheap and easy way to get the toolchain right away... and eventually GPL-GPS will be using eCos, so let me recommend it for future reasons as well. Don't forget to add `/opt/ecos/gnutools/arm-elf/bin/` to your path in order to get access to the utilities (you may want to add it to your .bashrc).
+- A GP4020 receiver board, with RS232 interface and access to the MULTI\_FNIO pin (that's pin 54) so we can force the bootloader in ROM to run on a board reset. The [[GPL-GPS MG5001 Carrier Board|MG5001DevBoard]] carries a MG5001 receiver with power supply, RS-232C drivers, and switches for exactly this purpose.
+- Access to your serial port on your computer: you may have to add yourself to the `dialout` group via `adduser (username) dialout` (works on Debian, anyway) in order to get access to ttyS0.
+- Some kind of oscilloscope to see the 2.22MHz signal on GPIO[7].
+
+## <a name="Steps:"></a> Steps:
+
+1. Get and extract [[gp4020_toggle_port.tgz]].
+2. Type `make`. Or, if you like doing it the hard way:
+  1. Type `arm-elf-as -mcpu=arm7tdmi gp4020_toggle_port.s -o gp4020_toggle_port.o` which gets you a relocatable object file.
+  2. Now use the linker to make the relocatable object file a "linked" (absolute - at whatever address, it thankfully doesn't matter) ELF file: `arm-elf-ld -o gp4020_toggle_port.o gp4020_toggle_port.elf`
+  3. Now, finally, "objcopy" the file from a linked ELF file to a binary output: `arm-elf-objcopy --output-target binary gp4020_toggle_port.elf gp4020_toggle_port.bin`.
+3. Then hex edit (I use khexedit, a very intuitive graphical hex editor) to insert three bytes which are the length of the program (not including those three header bytes). For this example, that should be "00 00 3c". If you've modified the program, you'll have to recount the bytes yourself. Now you have the program with the three byte header ready to dump to your GP4020 board (note that gp4020\_toggle\_port\_w\_length.bin is already in the TGZ file).
+4. I'm too lame to know how to set up my serial port from the command line correctly, so I run minicom, a serial terminal program. Set up minicom for 56k, 8N1, **_no_** flow control. If you can, test it connected to another computer (with a null modem) to just to make sure it's operating like you expect. Then, LEAVE IT OPEN. This leaves the serial port in the correct configuration.
+5. From another shell, type `cat gp4020_toggle_port_w_length.bin > /dev/ttyS0` (or whatever you've called it) which cats the program out the serial port (ttyS0).
+6. Check GPIO[7]. It should be toggling.
+7. Finally, you'll notice that your board seems to reset itself every minute or so. That's because (as far as we can tell) the watchdog timer on the MG5001 is still running despite your best attempts to unplug/reset the board. You can just run the `cat` command again and it'll start working again.
+
+Some helpful links:
+
+- <http://www.zap.org.au/elec2041-cdrom/> : This is the root directory for a CD-ROM for the embedded classes at the University of New South Wales in Austria. It's a GREAT resource, thanks UNSW folks!
+- <http://www.billgatliff.com/articles.shtml> : Bill's pages on cross gcc and the gnu tools.
+- [http://w3.rz-berlin.mpg.de/~hammer/member/locservnew/alphas/progs/doc/cygnus\_doc-99r1/html/6\_embed/embARM.html](http://w3.rz-berlin.mpg.de/~hammer/member/locservnew/alphas/progs/doc/cygnus_doc-99r1/html/6_embed/embARM.html)

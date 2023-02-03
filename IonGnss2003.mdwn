@@ -1,0 +1,64 @@
+# <a name="Open Source GPS at ION GPS/GNSS"></a><a name="Open Source GPS at ION GPS/GNSS "></a> Open Source GPS at ION GPS/GNSS 2003
+
+<div>
+  <center>[[IonGnss2003/first_open_source_gps_meeting_1.jpg]] [[IonGnss2003/first_open_source_gps_meeting_2.jpg]]</center>
+</div>
+
+On Thursday September 11th, 2003, the open source GPS community gathered for the first time at an ION meeting. We met in a session room after the last session on Thursday, and about 35 of us spent almost an hour talking. Here's a summary of what we discussed, roughly in order:
+
+1. Introduction by Andrew Greenberg of (Portland State University... that's me).
+2. Dr. Clifford Kelley (Boeing) spoke on the history and current state of OpenSource GPS software.
+3. Doug Baker (Navman) spoke on the hardware development kit he's working on that will work with OpenSource GPS: a Zarlink Gp2021 RF board that interfaceswith the ISA slot on a PC (which is meant specifically to run with OpenSource GPS software).
+4. Andrew Greenberg spoke on the GPL-GPS project, open source software for Zarlink-based OEM receivers.
+5. Stephan Esterhuizen (Univ. of Colorado, Boulder) spoke on his refactoring of the OpenSource GPS code for the GPS Architect hardware.
+6. Carl Carter of SiRF announced that SiRF is opening up the SiRF Star II for educational projects via some sort of API for the chip.
+7. There were a few other announcements: Please email me and I'll post them here.
+
+We then broke up for informal discussion. It was a great first meeting, and a nice chance to meet people we've been emailing or reading about for quite a while.
+
+Those who could then jumped on the Portland MAX and Streetcar and headed to a very crowded Bridgeport Brewpub in NW Portland for the quintescential Portland micro-brewery experienced. About a dozen of us sat down and talked GPS over pizza and beer... what more could you want?
+
+My thanks to all who attended and to all who are pursuing open source GPS software and hardware. See you next year, at ION GNSS 2003!
+
+## <a name="Contacts and Projects"></a> Contacts and Projects
+
+<table border=1 cellpadding=0 cellspacing=0>
+  <tr>
+    <th bgcolor="#99CCCC"><strong> Name </strong></th>
+    <th bgcolor="#99CCCC"><strong> Affiliation </strong></th>
+    <th bgcolor="#99CCCC"><strong> Project </strong></th>
+    <th bgcolor="#99CCCC"><strong> Email </strong></th>
+  </tr>
+  <tr>
+    <td> Andrew Greenberg </td>
+    <td> Portland State University </td>
+    <td> Open source software for Zarlink OEM receiver boards: <a href="http://gps.psas.pdx.edu" target="_top">http://gps.psas.pdx.edu</a></td>
+    <td> andrew(at)uad(dot)com </td>
+  </tr>
+  <tr>
+    <td> Doug Baker </td>
+    <td> Navman and db Engineering </td>
+    <td> Zarlink GP2021-based ISA carrier board meant for OpenSource GPS project: <a href="http://home.earthlink.net/~cwkelley/gps1000.htm" target="_top">http://home.earthlink.net/~cwkelley/gps1000.htm</a></td>
+    <td> dbengineering(at)compuserve(dot)com </td>
+  </tr>
+  <tr>
+    <td> Clifford Kelley </td>
+    <td> Boeing </td>
+    <td> Author of the OpenSource GPS project: <a href="http://home.earthlink.net/~cwkelley/" target="_top">http://home.earthlink.net/~cwkelley/</a></td>
+    <td> cwkelley(at)earthlink(dot)com </td>
+  </tr>
+  <tr>
+    <td> Carl Carter </td>
+    <td> SiRF Technology </td>
+    <td> Open SiRF chipset </td>
+    <td> ccarter(at)sirf(dot)com </td>
+  </tr>
+  <tr>
+    <td> Stephan Esterhuizen </td>
+    <td> Univ. of Colorado, Boulder </td>
+    <td> Refactored OpenSource GPS code: See <a href="http://www-ccar.colorado.edu/opengps/" target="_top">http://www-ccar.colorado.edu/opengps/</a></td>
+    <td> Stephan.Esterhuizen(at)colorado(dot)edu </td>
+  </tr>
+</table>
+
+_Am I missing you or someone you know? Either sign your self up and add your info, or email me at andrew(at)uad(com)._

@@ -1,0 +1,32 @@
+# <a name="Open GNSS Projects"></a> Open GNSS Projects
+
+This page is meant to list all of the open source and open hardware GNSS (Global Navigation Satellite System) projects. Although most projects currently focus on GPS, we welcome Galileo and GLONASS projects as well! Note that the Open GNSS community has a community forum mailing list. You can subscribe [here](http://lists.psas.pdx.edu/mailman/listinfo/opengnss).
+
+## <a name="Open Source GNSS Projects"></a> Open Source GNSS Projects
+
+- Software for ASIC Correlators
+  - [Clifford kelley's OpenSourceGPS site](http://home.earthlink.net/~cwkelley/)
+  - [Takuji Ebinuma's ARMGPS site](http://www.geocities.com/tebinuma/osgps/index.html)
+  - [Andrew Greenberg's GPL-GPS site](http://gps.psas.pdx.edu)
+  - [Stefan's work at U of CO on OpenGPS](http://ccar.colorado.edu/opengps/)
+  - [Georg Beyerle's OpenGPSRec site](http://www.gfz-potsdam.de/pb1/staff/gbeyerle/opengps/index.html)
+
+- Soft Correlator (FPGA-based correlator) receiver links
+  - [University of New South Wales Satellite Navigation and Positioning Group (SNAP)'s FPGA receiver research](http://www.gmat.unsw.edu.au/snap/work/fpga_research.htm)
+
+- Software-defined radio (SDR, or just "software") receivers
+  - [Krzysztof Kamieniecki's kkGPS site based on the USRP hardare](http://www.kamieniecki.com/krys/gps)
+
+- GNSS Processing Software
+  - [University of Texas at Austin's "GPSTk" GPS Toolkit](http://www.gpstk.org/)
+
+- GNSS Simulation Software
+  - [Georg Beyerle's OpenGPSSim site](http://www.gfz-potsdam.de/pb1/staff/gbeyerle/opengps/index.html)
+
+## <a name="Open Hardware GNSS Projects"></a> Open Hardware GNSS Projects
+
+- [Doug Baker's Zarlink GP2021 ISA and PCI boards from GPS Creations](http://www.gpscreations.com/)
+- [Yu Lu's "USBGPS" USB link to a Zarlink GP2021 correlator](http://www.ee.ucr.edu/~crlab/usbgps/)
+- [Matt Ettus' USB-based "Universal Software Radio Peripheral" (USRP)](http://www.ettus.com/)
+- [David Bengtson's grGPS USRP daughter board](http://www.keystoneradio.com/)
+- [ GPSFET - a firmware editing tool for Garmin receivers](http://cnslab.mb.jhu.edu/~derrick/gpsfet/index.cgi)

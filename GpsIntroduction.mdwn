@@ -1,0 +1,42 @@
+# An Introduction to GPL-GPS
+
+You can go to any major electronics store and purchase a GPS receiver for under $100. What are you really buying?
+
+1. A nice plastic box ;)
+2. Some kind of keypad
+3. A graphical LCD panel (color or monochrome)
+4. An OEM (Original Equipment Manufacturer) GPS receiver PCB running navigation algorithms in firmware (software that doesn't change - it's embedded in the receiver).
+5. Firmware running on the OEM GPS receiver which interfaces to the keypad and LCD; i.e., the user interface.
+
+The second to last entry is what we're interested in this web site: The OEM GPS receiver running firmware which decodes the signals from the satellites and computes a position.
+
+These days you can purchase OEM GPS receivers for under $100 - in quantity, even under $50. These OEM receivers are circuit boards with a GPS chip set on them and some kind of processor which runs the GPS chipset (although sometimes it's all just one chip). Along with the hardware, there's usually some custom, proprietary, closed-source software in the flash (so really it's firmware) which runs the chipset and produces the position estimate.
+
+## Developing on OEM boards
+
+So now that you have your OEM board, how do you write software for it? Most OEM receiver companies will charge you &gt; US$5,000 for a development kit which includes development board and a binary interface to that navigation software. For much, much more you can actually buy the navigation source code. In either case, you'll most likely need to sign some sort of non-disclosure agreement in the process, which essentially prevents you from sharing your code.
+
+If you're making a proprietary device with closed source software your wish to leverage, then by all means you should go this route. But it'll cost you. And don't forget, you can't share your code. Or even, possibly, have other developers help you out (because of the nondisclosure agreements). And, of course, if you want a feature that the OEM never even thought of providing, good luck implementing it in the context of their software infrastructure.
+
+## The open source alternative: GPL-GPS
+
+The GPL-GPS is our attempt to provide:
+
+1. Open hardware development boards for OEM receiver boards
+2. Free and open source software to run on the OEM receiver boards
+
+In order to write open source software for an OEM GPS receiver board (just a "GPS" from now on), it's necessary to understand the chipset you're going to work with. Unfortunately, only 1 GPS chipset manufacturer makes their chipset information freely available: that's the GEC Plessey aka Mitel now Zarlink GP2021/GP4020 series chipsets.
+
+So that makes it an easy choice of where to start: port a small real-time operating system, port the existing open source GPS software (by Clifford Kelley et al), and then begin to customize and optimize the software.
+
+## GPL-GPS applications
+
+The important applications for such an open source receiver are:
+
+1. Direct access to the GPS correlators, allowing:
+  1. loop coupling with inertial data (inertial aiding of the tracking loops)
+  2. deep coupling with inertial data
+2. differential message generation (i.e., a local DGPS basestation)
+3. Direct access to the navigation filter, which allows the end user to customize the filter for their application (e.g., UAVs)
+4. Direct access to the timing features of the GPS, for custom timing applications.
+5. The ability to customize every feature of the receiver for a particular application

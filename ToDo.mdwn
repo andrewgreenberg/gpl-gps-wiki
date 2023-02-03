@@ -1,0 +1,34 @@
+# GPL-GPS To Do List
+
+Here's prioritized task/to-do list for GPL-GPS.
+
+## Software To-Do List
+
+1. Move the ISR,DSR and tracking.c functions and data objects to the fast 32 bit 8 KB SRAM.
+  - Jonathan's done this (in a way which bypasses eCos) so this is in testing.
+2. New PLL loop for high dynamics and MUCH better lock(!)
+  - Tak is working on this (PLL+FLL), and Andrww is looking into this as well (higher order PLL).
+  - Quasi-coherent PLL to replace the hybrid PLL?
+3. New cold search and acquisition algorithm which doesn't drop known satellite data.
+4. Implement an almanac.
+  - Parsing and storing almanac data - Jonathan
+  - Implementing the GP4020 real time clock - Andrew
+  - Processing of almanac data based on the clock - Jonathan/Andrew
+  - Integration of almanac data with cold start algorithm.
+5. Atmospheric correction from ephemeris.
+6. Carrier phase tracking and positioning.
+7. DGPS correction generation.
+8. DGPS correction use.
+9. WAAS support.
+10. 1 pps signal
+11. Kalman filter for smoothing of pseudorange. Carrier-phase measurements contain high-fidelity information on the relative change in satellite-to-observer range, and can be used to reduce the effect of pseudorange measurement noise.
+  - Is this the same as point 6?
+
+## Hardware To-Do List
+
+1. Re-do the carrier board with FTDI FT2232C USB to 2xUART
+2. Integrate in SPI to talk with SPI flash memory
+  - Possible also talk SPI with the GP4020? (5 MB/s instead of 115.2 kbps)
+    - [[TrondDanielsen]] says: I have ordered samples for [MAX3420E](http://www.maxim-ic.com/quick_view2.cfm/qv_pk/4751). I will create a simple spi to usb interface card, and maybe later it can be added to the development board. I am not sure how much software is needed.
+3. Raw data capture?
+4. Open hardware board one of these days?

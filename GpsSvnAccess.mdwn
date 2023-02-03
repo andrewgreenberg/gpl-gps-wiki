@@ -1,0 +1,21 @@
+# Getting GPL-GPS Software
+
+All of the GPL-GPS specific source code is stored in a versioned code repository on the PSAS server called 'subversion'. Note that this GPL-GPS code only; all of the eCos source code (besides some configuration files) must be [[downloaded with CVS|GpsSoftware]].
+
+You can access GPL-GPS software in one of two ways:
+
+## 1\. Browsing the Source using the Web
+
+If you just want to poke around the code, use the [subversion web interface](http://svn.psas.pdx.edu/trunk/gps/). Don't use the web interface to download the files, of course... use subversion for that.
+
+## 2\. Using subversion ("svn")
+
+First, get subversion. It's available for Linux (`apt-get install subversion` in Debian) and Windows (the CygWin 'subversion' package). Then check out the code:
+
+    svn co http://svn.psas.pdx.edu/svn/psas/trunk/gps
+
+The code will be checked out into a "gps" directory. You're ready to go! If you ever want to update to the latest GPL-GPS code, in the GPS directory just type:
+
+    svn update
+
+For more information on subversion and access to our repository, see <http://psas.pdx.edu/AvionicsSVNAccess/>. Note that if you want to develop for GPL-GPS, you'll need write access to the repository: contact me (andrew-at-psas.pdx.edu) and we'll go from there.

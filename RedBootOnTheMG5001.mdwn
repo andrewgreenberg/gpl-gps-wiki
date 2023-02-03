@@ -1,0 +1,205 @@
+# <a name="RedBooting a GP4020-based Receiv"></a><a name="_RedBooting a GP4020-based Recei"></a> RedBooting a GP4020-based Receiver (e.g., the MG5001)
+
+## <a name="1.0 Overview"></a> 1.0 Overview
+
+In order to get eCOS and thus the OSGPS code on your receiver, you first need to prep your receiver with a ROM monitor. We're going to use RedBoot, eCOS's bootstrap environment for embedded systems. I'm assuming that you're working on a Linux box here, not a Windows/Cygwin system. However, I think it should be pretty easy to translate to that environment. Please let me know if you have patches for these instructions, including how to get it to work under cygwin.
+
+Here are the steps to install RedBoot:
+
+1. Install eCOS on the host computer and get the latest eCOS sources from CVS.
+2. Configure and build RedBoot (a RAM and a ROM version) out of the eCOS sources for your receiver.
+3. Cross compile a small bootstrapping program for the GP4020.
+4. Set up minicom for downloading to the GP4020.
+5. Load a bootstrap program into the GP4020's memory via the GP4020's boot-via-UART feature.
+6. Load RedBoot into RAM.
+7. [Optional but recommended] Download and save the OEM firmware bits.
+8. Burn RedBoot into ROM (flash, really).
+9. [Optional and NOT (!) recommended] Burning back the OEM firmware bits.
+
+## <a name="1.1:  Install eCOS on the host c"></a> 1.1: Install eCOS on the host computer and get the latest eCOS sources from CVS.
+
+Go to <http://ecos.sourceware.org/getstart.html> and follow the directions to download and install eCOS. I don't recommend getting it any other way (e.g., Debian packages) becuase it tends to put things in odd places.
+
+You'll find that it put everything in `/opt/ecos` which is a fine place to put it. All of your tools are in `/opt/ecos/gnutools/` and all of the released eCOS sources (version 2.0 as of 3/2005) is in `/opt/ecos/ecos-2.0`
+
+Go to <http://ecos.sourceware.org/anoncvs.html> and follow the directions to get the latest version of eCos from the eCOS CVS repository. This is necessary because (as of 3/2005) the GP4020 sources are only in CVS. Annoyingly, you'll need to do the checkout and all future updates as root since it's located in the `/opt` directory. Don't forget to update your sources often - like once a month or so - by running the CVS update command specified on that page.
+
+Run `configtool`. Choose `Build`, `Repository`, and point your repository to the packages menu in the CVS sources you just downloaded in 1.1.
+
+You also want to make sure that your environment has ECOS\_REPOSITORY set to your CVS directory's `packages` directory.
+
+OK, now you've got eCOS (and thus RedBoot) sources, the eCOS configuration tools, and some GNU tools (gcc, etc).
+
+## <a name="1.2: Configure and build _RedBoo"></a> 1.2: Configure and build RedBoot (a RAM and a ROM version) out of the eCOS sources
+
+First we'll build the RAM version of RedBoot. Then we'll build the ROM version.
+
+- Make a directory, called for example `redboot_ram`, and start `configtool` from there.
+- Choose `Build`, `Template` and choose `GPS 4020` from the hardware drop down list. Then choose `redboot` from the `Packages` drop down. Hit `OK`. and then `Continue` when the conflicts dialog pops up. It'll handle the conflicts automatically.
+- Choose `Import` from the `Fil` menu and import the file `/opt/ecos/ecos-cvs/packages/hal/arm/gps4020/current/misc/redboot_RAM.ecm`. This makes the final necessary tweaks to the gps4020/redboot template.
+- Choose `Save` from the `File` menu and save that file in the directory you made above. I called it `redboot_ram.ecc`.
+- Choose `Build`, `Library` and now the configtool will build you RedBoot for GP4020 to run out in RAM. The binary file, Motorola S-record file and elf file are all located in the `redboot_ram/redboot_ram_install/bin/` directory.
+
+Now we need to make the ROM version of redboot that we can burn into flash.
+
+- Make a directory, called for example `redboot_rom`, and start the `configtool` from there.
+- Choose `Build`, `Template` and choose `GPS 4020` from the hardware drop down list. Then choose `redboot` from the `Packages` drop down. Hit `OK`. and then `Continue` when the conflicts dialog pops up. It'll handle the conflicts automatically.
+- Choose `Import` from the `Fil` menu and import the file `/opt/ecos/ecos-cvs/packages/hal/arm/gps4020/current/misc/redboot_ROM.ecm`. This makes the final necessary tweaks to the gps4020/redboot template.
+- Choose `Save` from the `File` menu and save that file in the directory you made above. I called it `redboot_rom.ecc`.
+- Choose `Build`, `Library` and now the configtool will build you RedBoot for GP4020 to run out in ROM. The binary file, Motorola S-record file and elf file are all located in the `redboot_rom/redboot_rom_install/bin/` directory.
+
+## <a name="1.3: Cross compile a small boots"></a> 1.3: Cross compile a small bootstrapping program for the GP4020.
+
+First of all, thanks to **Gary Thomas** for writing all of the GP4020 download tools and putting them into eCOS - thanks Gary!
+
+When the GP4020 boots, it has a special UART boot mode where it can load a small program into SRAM and run it. We're going to compile a small prgraom to do exactly that: load it into the SRAM as raw binary, and then use that program to load the s-record version of the RedBoot RAM image into the GP4020's RAM.
+
+At the same time, we'll grab some Python programs that we'll install into minicom in the next step.
+
+First, get the download directory from CVS, then build the small program.
+
+> $ cp -r /opt/ecos/ecos-cvs/packages/hal/arm/gps4020/current/support/download .
+>     $ cd download
+>     $ make
+
+... and after a bit of grinding, you should have the bootstrapping program, `gps4020_download.bin`.
+
+## <a name="1.4: Configure Minicom and add s"></a> 1.4: Configure Minicom and add some downloading protocols
+
+We're going to use minicom to interact with the GP4020, including bootstrapping ourselves into RedBoot. We'll need a few special "minicom extensions" that Gary wrote that we copied over in section 1.3 above. `download_bin.py` is a python script for minicom which allows you to load a binary file (in our case, the binary `gps4020_download.bin`) into the GP4020 when it's in boot mode. `download.py` is a program to send Motorola s-record formatted files to that bootstrapping binary.
+
+First, put the python scripts where `minicom` can get at them:
+
+> $ cd download
+>     $ sudo cp download*.py /usr/local/bin
+>     $ chmod +x /usr/local/bin/download*.py
+
+Now run `minicom`.
+
+- Press `ctrl-a` then `o` to get the configuration menu.
+- Choose `File Transfer Protocols`
+- Configure an empty option:
+  - `Name` can be whatever you want; I used `gps_bootloader`
+  - `Program` is `/usr/local/bin/download_bin.py`
+  - The next five columns are `Name` = `Y` `U/D` = `U`, `FullScr` = `N`, `IO-Red.` = `Y`, `Multi` = `N`
+- Now configure **another** empty option:
+  - `Name` can be whatever you want; I used `gps_uploader`
+  - `Program` is `/usr/local/bin/download.py`
+  - The next five columns are `Name` = `Y` `U/D` = `U`, `FullScr` = `N`, `IO-Red.` = `Y`, `Multi` = `N`
+- Hit return to exit that menu and go back to the configuration menu
+- Choose `Serial Port Setup`
+- Make sure you have the right device (e.g., `/dev/ttyS0`), it's set to `57600 8N1`, and BOTH hardware and software flow control are OFF.
+- Either save the setup as default (recommended) or save it as a setup somewhere which you'll load when you need to do this again.
+
+Now `minicom` is set up to transfer files in two modes: one to talk to the GP4020's UART bootloader, and one to talk to the program we compiled in 1.3.
+
+## <a name="1.5: Load the bootstrap program"></a><a name="1.5: Load the bootstrap program "></a> 1.5: Load the bootstrap program into the GP4020's memory via the GP4020's boot-via-UART
+
+- Run `minicom`
+- Turn on your GP4020 receiver with the boot loader pin set to "load". Or better yet, do a hardware reset with it set to "load".
+- Press `ctrl-a` then `s` to send a file; choose the `gps_bootloader` protocol.
+- Navigate to and select `gps4020_download.bin`.
+- Press any key to continue and then you should see the message `download>>`. It might actually only show `d>>` or some fraction of the message; don't worry about it, it still works.
+
+## <a name="1.6: Load redboot into RAM using"></a> 1.6: Load redboot into RAM using the gps4020\_download.bin bootloader program
+
+Now we have `gps4020_download.bin` loaded into RAM; we can now upload an s-records file.
+
+- In `minicom`, press `ctrl-a` then `s` to send a file; choose the `gps_uploader` protocol.
+- Select `redboot_ram/redboot_ram_install/bin/redboot_ram.srec`.
+- You should see addresses spin in a dialog as the RedBoot srec file loads.
+- After you press any key, you should see the RedBoot welcome screen!
+
+> RedBoot(tm) bootstrap and debug environment [RAM]
+>     Non-certified release, version UNKNOWN - built 07:21:45, Nov 15 2003
+>
+>     Platform: GPS-4020 (ARM7TDMI)
+>     Copyright (C) 2000, 2001, 2002, Red Hat, Inc.
+>
+>     RAM: 0x20000000-0x20040000, 0x20005908-0x2003f000 available
+>     RedBoot>
+
+Note the `[RAM]` note on the first line; this means you have successfully loaded RedBoot into the GP4020's RAM.
+
+## <a name="1.7: [Optional but recommended]"></a><a name="1.7: [Optional but recommended] "></a> 1.7: [Optional but recommended] Save the current flash image (usually the OEM firmware)
+
+It's always good to keep all of your bits, and the OEM firmware on your GP4020 board is no exception. To get a copy, get RedBoot up and running in RAM (see above). Once you're there, then by far the easiest thing to do is to use gdb to grab the flash. First of all, the `arm-elf-gdb` version of gdb doesn't seem to like the `set baud` command, so run minicom and then quit without resetting the serial port; that'll leave it configured correctly. DON'T FORGET to quit minicom, by the way: even with redboot running, gdb will take of the serial console so minicom is useless anyway.
+
+Finally, you might be wondering why the below addresses are in the 0x60000000 range instead of the 0x00000000 range. That's because RedBoot by necessity swaps the SRAM and flash memory areas (1 and 4 in the GP4020) so that 0x60000000 becomes flash and 0x00000000 becomes SRAM. It's the difference between cold boot and running: on a cold boot, the flash has to be in memory area 1 (0x00000000) to be at the reset vector. But you want to change the vectors, so we swap it with the fast SRAM (memory area 4) as soon as we're all set up. See [[MpcForMG5001]] for more info.
+
+> $ arm-elf-gdb
+>     GNU gdb 5.3 (eCosCentric)
+>     Copyright 2002 Free Software Foundation, Inc.
+>     GDB is free software, covered by the GNU General Public License, and you are
+>     welcome to change it and/or distribute copies of it under certain conditions.
+>     Type "show copying" to see the conditions.
+>     There is absolutely no warranty for GDB.  Type "show warranty" for details.
+>     This GDB was configured as "--host=i686-pc-linux-gnu --target=arm-elf".
+>     (gdb) target remote /dev/ttyS0
+>     Remote debugging using /dev/ttyS0
+>     0x2000abec in ?? ()
+>     (gdb) dump memory flash_dump.bin 0x60000000 0x6003FFFF
+>     (gdb) q
+>     The program is running.  Exit anyway? (y or n) y
+>     $
+
+There. Now you've got the flash memory safely tucked away in a file called `flash_dump.bin`. Unfortunately, gdb has hosed redboot, so you'll need to go back and reload the bootstrap program and reboot\_ram (step 1.6).
+
+## <a name="1.8: Burn redboot into flash"></a> 1.8: Burn redboot into flash
+
+Assuming you're in `minicom` with redboot loaded into RAM:
+
+> RedBoot> load -r -b 0x20020000 -m xmodem
+>     CRaw file loaded 0x20020000-0x2002e7d7, assumed entry at 0x20020000
+>     xyzModem - CRC mode, 465(SOH)/0(STX)/0(CAN) packets, 7 retries
+
+- In `minicom`, press `ctrl-a` then `s` to send a file; choose the `xmodem` protocol.
+- Select `redboot_rom/redboot_rom_install/bin/redboot_rom.bin`.
+- You should see the xmodem status update as the RedBoot ROM image loads.
+
+And then finally, to burn the file into flash:
+
+> RedBoot> fis write -f 0x60000000 -b 0x20020000 -l 0x10000
+>     * CAUTION * about to program FLASH
+>                 at 0x60000000..0x6000ffff from 0x20020000 - continue (y/n)? y
+>     ... Erase from 0x60000000-0x60010000: .
+>     ... Program from 0x20020000-0x20030000 at 0x60000000: .
+>     RedBoot>
+
+Now powercycle or reset the the receiver and you should get:
+
+> RedBoot(tm) bootstrap and debug environment [ROM]
+>     Non-certified release, version UNKNOWN - built 00:44:46, Mar 30 2005
+>
+>     Platform: GPS-4020 (ARM7TDMI)
+>     Copyright (C) 2000, 2001, 2002, 2003, 2004 Red Hat, Inc.
+>
+>     RAM: 0x20000000-0x20040000, [0x200059c0-0x20040000] available
+>     FLASH: 0x60000000 - 0x60040000, 4 blocks of 0x00010000 bytes each.
+>     RedBoot>
+
+**_CONGRATULATIONS!_** You've just installed the RedBoot boot loader onto your GPS receiver. Now we can move on to the eCOS and GPS side of things!
+
+## <a name="1.9: [Optional and NOT"></a> 1.9: [Optional and NOT recommend] Loading back in the OEM firmware
+
+Sometimes you just gotta go back. To do this is a bit annoying, unfortunately. First, the dump you took in part 1.7 is too big. Using a hexeditor, go in and remove all of the blank flash area at the end - everything filled with 0xFF's. Then save this file. Then break the file up into two different chunks, because there's not enough room in the RAM to send the file over and have redboot in RAM. Then you have to x modem the files over and burn them into flash. Here's a transcript of what I did:
+
+> RedBoot>load -r -m xmodem -b 0x20020000
+>     CRaw file loaded 0x20020000-0x2003ffff, assumed entry at 0x20020000
+>     xyzModem - CRC mode, 1025(SOH)/0(STX)/0(CAN) packets, 3 retries
+>     RedBoot> fis write -f 0x60000000 -b 0x20020000 -l 0x20000
+>     ** WARNING: RAM address: 0x20020000 may be invalid
+>        valid range is 0x20000000-0x20040000
+>     * CAUTION * about to program FLASH
+>                 at 0x60000000..0x6001ffff from 0x20020000 - continue (y/n)? y
+>     ... Erase from 0x60000000-0x60020000: ..
+>     ... Program from 0x20020000-0x20040000 at 0x60000000: ..
+>     RedBoot> load -r -m xmodem -b 0x20020000
+>     CRaw file loaded 0x20020000-0x2002aa1f, assumed entry at 0x20020000
+>     xyzModem - CRC mode, 341(SOH)/0(STX)/0(CAN) packets, 2 retries
+>     RedBoot> fis write -f 0x60020000 -b 0x20020000 -l 0xaa20
+>     * CAUTION * about to program FLASH
+>                 at 0x60020000..0x6002ffff from 0x20020000 - continue (y/n)? y
+>     ... Erase from 0x60020000-0x60030000: .
+>     ... Program from 0x20020000-0x20030000 at 0x60020000: .
+>     RedBoot>

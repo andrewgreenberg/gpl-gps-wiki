@@ -1,0 +1,17 @@
+# <a name="GP4020 Cheat Sheet"></a> GP4020 Cheat Sheet
+
+Here are some things we learned the easy way (we explored it first) or the hard way (we banged our heads against until we finally figured it out).
+
+## <a name="GPIO"></a> GPIO
+
+No, really, they mean it: you **_have_** to use a full 32 bit access to get to the GPIO registers. Do **_not_** use a byte access (e.g., ldrb or strb) because it **_won't work_**.
+
+## <a name="Boot ROM"></a> Boot ROM
+
+Translation: "Pull MULTI\_FNIO high during a reset in order to start the internal boot ROM instead of the external flash".
+
+The 1.3% error on the 56K UART speeds doesn't seem to be a problem, but it might be, especially if your computer's UART is fast. I think, but I'm not sure, that putting a few bits worth of delay between each charater will help.Since the UART syncs it's 16x receive clock on the start bit of each byte, having a small gap between bytes prevents timing problems from bleeding across received bytes.
+
+## <a name="Watchdog Timer"></a> Watchdog Timer
+
+Don't forget, if your GP4020 turns on the watchdog timer AND has a backup battery, the watchdog timer will keep going until you disconnect the batter AND power supply.

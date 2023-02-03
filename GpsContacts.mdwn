@@ -1,0 +1,23 @@
+# Contacts
+
+Mea Culpa: This project was my Masters thesis in [[ECE at Portland State University](http://www.ece.pdx.edu) in Portland Oregon. Have any questions? Comments? Money? Time? You can reach me, Andrew Greenberg, at andrew(at)uad(dot)com or phone me at 503.788.1343. I'd love to hear from you!
+
+Also, this project was directly inspired by it's end use: as a receiver and local differential station for the Launch Vehicle No. 2 (LV2) sounding rocket being developed by the [Portland State Aerospace Society](http://psas.pdx.edu) (PSAS).
+
+## IRC and Jabber channels:
+
+Both channels are open to everyone who wants to join.
+
+- `#opengnss@freenode.net`
+- `opengnss@conference.jabber.org`
+
+## Mailing lists hosted at this site:
+
+Lists specific to GPL-GPS:
+
+- [GPL-GPS Announce List](http://lists.psas.pdx.edu/cgi-bin/mailman/listinfo/gpl-gps-announce): Very low traffic, just major announcements. Anyone may join. All messages are moderated.
+- [GPL-GPS Developers List](http://lists.psas.pdx.edu/cgi-bin/mailman/listinfo/gpl-gps-developers): Potentially high traffic developers list. Anyone may join, any list member may post.
+
+General open source GPS receiver software list:
+
+- [OpenSource GPS mailing list](http://lists.psas.pdx.edu/cgi-bin/mailman/listinfo/opensource_gps): Mailing list on all open source GPS receiver projects, especially those based on Clifford Kelley's original Open Source GPS.

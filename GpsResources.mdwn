@@ -1,0 +1,45 @@
+# Free and Open Source GPS Receiver Software Resources
+
+Here's collection of resources for this site and links to others.
+
+## ARM &amp; GNU ARM Tools
+
+- [GNU ARM](http://www.gnuarm.com/): Prebuilt GNU ARM binaries. Highly recommended! GCC 3.4.3 and 4.1.
+- [CodeSourcery GNU ARM Tools](http://www.codesourcery.com/gnu_toolchains/arm/index_html) Prebuilt GNU ARM binaries - supported by ARM, which might be a nice thing. GCC 3.44.
+
+## Links:
+
+- Here's [[OpenGnssProjects]], a list of all open source / open hardware GNSS projects that we know of!
+
+### GPS Receivers in Space:
+
+- <http://www.weblab.dlr.de/rbrt/GpsNav/Orion/ReceiverDevelopment.html>
+
+### Search results:
+
+- [freshmeat](http://freshmeat.net) [search](http://freshmeat.net/search/?q=GPS&section=projects) on all GPS projects
+- Webobedia.com's [definition](http://www.webopedia.com/TERM/G/GPS.html) of GPS.
+
+### Useful web tools
+
+- [IEEE 751 converter (751 hex to decimal and back)](http://babbage.cs.qc.edu/courses/cs341/IEEE-754hex64.html)
+
+## Articles and Books:
+
+_[[Open Source Software for Commercial Off-the-Shelf GPS Receivers|/GpsResources/oss_for_cots_gps_receivers.pdf]]_ by Andrew Greenberg. My masters thesis! Perhaps not the best reading, sorry. But it is a decent introduction to GPS and the GPL-GPS project, I'll give it that.
+
+_Global Positioning System: Theory and Applications Complete Set,_ J. Spilker &amp; B. Parkinson, Eds., AIAA, 1996. A must have if you're doing serious GPS work. Describes the ICDs, and expands on why things are the way they are.
+
+_[Embedded Software Development with eCos](http://www.informit.com/content/downloads/perens/0130354732.pdf)_ by Anthony J. Massa. Prentice Hall, 2003. The only book on eCos available; it's a decent but incomplete introduction to the RTOS: once you're done with this book, you can then use the online reference documentation can be used from there. A free PDF of the book can be found at the above link.
+
+_Fundamentals of Global Position System Receivers: A Software Approach (second edition)_ by James Bao-Yen Tsui. Wiley Series in Microwave and Optical Engeineering, 2000. A must-have for software receiver folks - the second edition corrects some of the buggy Matlab files and has nice info on weak signals. It's an excellent reference to have.
+
+_The Global Positioning System &amp; Inertial Navigation_ by Jay A. Farrell and Matthew Barth. [[McGraw]] Hill, 1999. A great overview book on GPS, INS, and their integration. With examples.
+
+_Linear Algebra, Geodesy, and GPS_ by Gilbert Strang and Kai Borre. Wellesley-Cambridge Press, 1997. An excellent book for those who need an introduction - or in my case, a re-introduction - to linear algebra. Great stuff, good Matlab files. You can find the matlab files here: <http://kom.aau.dk/~borre/matlab/>
+
+_Spatial Error Analysis_ by David Hsu. IEEE Press, 1999. The only book I could find that specifically treats spatial errors, a subject sorely missing from other GPS books. Includes lots of examples, Matlab code, and more kinds of error analysis than you can shake a stick at. Bonus: [[Here's the errata to the book, courtesy the author|/GpsResources/spacial_error_errata.pdf]].
+
+_Understanding GPS Principles and Applications_ Editor: Elliott D. Kaplan. Artech House Publishers, 1996. A classic, and a great reference.
+
+_Introduction to Random Signals and Applied Kalman Filtering_ by Robert Grover Brown and Patrick Y. C. Hwang. Jogn Wiley &amp; Sons, Inc., 1997.

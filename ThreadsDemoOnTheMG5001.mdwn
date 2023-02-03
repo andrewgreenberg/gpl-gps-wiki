@@ -1,0 +1,107 @@
+# <a name="Running an eCos threads demo on"></a><a name="Running an eCos threads demo on "></a> Running an eCos threads demo on a GP4020 receiver
+
+## <a name="1.0: Overview"></a> 1.0: Overview
+
+Here's how to run the "two threads demo" included in the ecos source. It's a great little demo, and will show you how the whole eCOS + application thing works. Here's what we're going to do:
+
+1. Build eCOS configured for the GP4020 into a library (`libtarget.a`, in fact).
+2. build the `twothreads.c` demo and link to the eCOS library.
+3. Upload the file and run it on the GP4020 using gdb
+
+This demo assumes you already have redboot running from the flash - see [[RedBootOnTheMG5001]].
+
+## <a name="1.1: Build eCOS"></a> 1.1: Build eCOS
+
+- Once again, create a directory. I called it `ecos_twothreads`.
+- In that directory, run the `configtool`.
+- Choose `Template` from the `Build` menu.
+- Choose `GPS 4020` from the hardware drop down list. Then choose `default` from the `Packages` drop down.
+- You shouldn't have to do much:
+  - The `eCOS HAL / ARM Architecture / GPS4020 evaluation board / Startup time` (`CYG_HAL_STARTUP` option) should be set to `RAM`.
+  - The `eCOS HAL / ROM Monitor Support / Work with ROM monitor` should be checked, and the value should be `GDB_stubs`.
+  - Massa suggests turning on asserts and tracing, and I can't disagree: Under `Infrastructure`, check `Asserts & Tracing` and `Use Asserts`
+- Choose `Save` from the `File` menu and save that file in the directory you made above. I called it `ecos_default.ecc`.
+- Choose `Build`, `Library` and now the configtool will build you the eCOS library for GP4020 meant to run in RAM. The library can be found in `ecos_twothreads/ecos_default_install/lib` directory.
+
+## <a name="1.2: Build the Application and l"></a> 1.2: Build the Application and link with eCOS
+
+- makes sure you're in the ecos directory from above, in my case `ecos_twothreads`.
+- Get the .c file and the Makefile: `cp /opt/ecos/ecos-2.0/examples/twothreads.c` and `cp /opt/ecos/ecos-2.0/examples/Makefile`.
+- Now the Makefile we just copied is a generic make file for all the examples and for all platforms. So we'll give make some settings specific to this demo: `make twothreads INSTALL_DIR=ecos_default_install ECOS_COMMAND_PREFIX=arm-elf-`
+- You should get `twothreads` and `twothreads.o`.
+- Now turn it into a Motorola S-record format: `arm-elf-objcopy -O srec twothreads twothreads.srec`
+- And yes, although it's impossibly big, it will fit (since the SREC format is much larger than what's ending up in memory)
+- And just for the heck of it, let's just give it a quick spin using redboot's `go` command, which knows the start address of the loaded code because of the last record in the SREC file:
+
+> RedBoot> load -v -m xmodem
+>     CEntry point: 0x20008040, address range: 0x20008000-0x2001c088
+>     xyzModem - CRC mode, 1924(SOH)/0(STX)/0(CAN) packets, 1 retries
+>     RedBoot> go
+>     Entering twothreads' cyg_user_start() function
+>     Beginning execution; thread data is 0
+>     Beginning execution; thread data is 1
+>     Thread 0: and now a delay of 239 clock ticks
+>     Thread 1: and now a delay of 230 clock ticks
+>     Thread 1: and now a delay of 221 clock ticks
+>     Thread 0: and now a delay of 214 clock ticks
+>     Thread 1: and now a delay of 224 clock ticks
+>       .         .             .
+>       .         .             .
+>       .         .             .
+
+## <a name="1.3: Using gdb"></a> 1.3: Using gdb
+
+If you did use redboot to run the demo application, then reset your board so it's running redboot again. And make sure to exit `minicom`.
+
+- From the same directory (`ecos_twothreads`), type `arm-elf-gdb`
+- type `set remotebaud 57600`
+- type `target remote /dev/ttyS0`
+- type `load twothreads`
+- type `continue`
+
+And voila! You've got gdb up and running an eCOS application on the GP4020-based receiver. Now THAT'S cool.
+
+Here's a transcript of the commands:
+
+> $ arm-elf-gdb
+>     GNU gdb 5.3 (eCosCentric)
+>     Copyright 2002 Free Software Foundation, Inc.
+>     GDB is free software, covered by the GNU General Public License, and you are
+>     welcome to change it and/or distribute copies of it under certain conditions.
+>     Type "show copying" to see the conditions.
+>     There is absolutely no warranty for GDB.  Type "show warranty" for details.
+>     This GDB was configured as "--host=i686-pc-linux-gnu --target=arm-elf".
+>     (gdb) set remotebaud 57600
+>     (gdb) target remote /dev/ttyS0
+>     Remote debugging using /dev/ttyS0
+>     0x600033f4 in ?? ()
+>     (gdb) load twothreads
+>     Loading section .rom_vectors, size 0x40 lma 0x20008000
+>     Loading section .text, size 0x106d8 lma 0x20008040
+>     Loading section .rodata, size 0x35f0 lma 0x20018718
+>     Loading section .data, size 0x380 lma 0x2001bd08
+>     Start address 0x20008040, load size 82056
+>     Transfer rate: 36469 bits/sec, 299 bytes/write.
+>     (gdb) continue
+>     Continuing.
+>     Entering twothreads' cyg_user_start() function
+>     Beginning execution; thread data is 0
+>     Beginning execution; thread data is 1
+>     Thread 0: and now a delay of 239 clock ticks
+>     Thread 1: and now a delay of 230 clock ticks
+>     [New Thread 1]
+>
+>     Program received signal SIGINT, Interrupt.
+>     [Switching to Thread 1]
+>     0x2000c934 in ?? ()
+>     (gdb) continue
+>     Continuing.
+>     Thread 1: and now a delay of 221 clock ticks
+>     Thread 0: and now a delay of 214 clock ticks
+>     Thread 1: and now a delay of 224 clock ticks
+>
+>     Program received signal SIGINT, Interrupt.
+>     0x2000c938 in ?? ()
+>     (gdb) q
+>     The program is running.  Exit anyway? (y or n) y
+>     $

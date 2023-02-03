@@ -1,0 +1,3 @@
+# GPL-GPS Paper and Talk at ION GNSS 2005
+
+Tak and I presented a paper on GPL-GPS at the [Institude of Navigation's](http://www.ion.org/) GNSS 2005 conference. Attached below is the paper (as a PDF), and the presentation (in PDF, ODP and PPT).

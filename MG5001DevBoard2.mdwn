@@ -1,0 +1,7 @@
+# Open Hardware MG5001/3 Development Board
+
+Here's the latest version of the MG5001/MG5003 development board for GPL-GPS. Included in the zip file are the [CADSOFT EAGLE CAD](http://www.cadsoft.de/) files for the project, along with a parts list with Digikey part numbers, and the CAM files for manufacturing the board.
+
+I'll post more details later, but suffice it to say this board is just better. Not only can hold the MG5003, but it's smaller, a bit more sane of a layout, and better labled. Here's the zip file:
+
+[[mg5001dev-1.0p10.zip]]

@@ -1,0 +1,43 @@
+# <a name="Developer Access to _OpenSource"></a><a name="Developer Access to _OpenSource "></a> Developer Access to OpenSource GPS (OSGPS) on SourceForge
+
+<font> _Gleefully stolen from: <http://twiki.psas.pdx.edu/bin/view/PSAS/AvionicsCVSAccess> _</font>
+
+For quick and dirty CVS access, please see: [http://sourceforge.net/cvs/?group\_id=91538](http://sourceforge.net/cvs/?group_id=91538)
+
+This is a step-by-step guide to get you up and running developing opensource GPS code which is hosted on [SourceForge's](http://www.sourceforge.net/) CVS server. It's aimed at Windows users who aren't necessarily good at using unix-like command shells. People who uses unixes, feel free to laugh at all of us. ;) Finally, you may want to print out these instructions if you can't easily switch back and forth between open windows.
+
+First, the red tape:
+
+1. You need to get a developer account at [SourceForge](http://sourceforge.net/): go to <http://sourceforge.net/account/register.php>.
+2. An OSGPS admin (e.g., Cliff) needs to add your developer account to the OSGPS project.
+
+Then, the settings:
+
+1. Install the SSH and CVS software you want to use, if you haven't already.
+  - For people using Windows:
+    - We recommend CygWin for SSH: CygWin gives you a unix-like prompt (a BASH shell) on your Windows box. Go to <http://www.cygwin.com/>, download the installer, and get the base package and the openssh package (under the 'Net' Category). Folks new to unix-like environments should also install the 'nano' editor (under the CygWin 'editors' category), since it's probably the easiest text editor to use. In the future, any command line commands should be run from the CygWin shell.
+    - We recommend the most recent copy of WinCVS (currently 1.13B2 as of 2003/11/01) for CVS: <http://www.wincvs.org/>
+  - Test your ssh by typing <code>ssh [your\_login\_name@shell.sourceforge](mailto:your_login_name@shell.sourceforge).net</code> and enter your password to get into the sourceforge server. You should be able to login. Then exit by typing `exit`.
+2. If the login name on your local machine is not the same as the login name at sourceforge, you need to make a configuration file. If it the logins are the same (lucky you!), skip these step.
+  - Get to your local home directory if you're not already there: `cd ~`
+  - If you don't already have one, make a `.ssh` directory: `mkdir .ssh`. For BASH new folks, don't forget that the "." infront of the directory names means it's hidden unless you use the "ls -a" (list all) command.
+  - Get into it: `cd .ssh`
+  - With your favorite editor, make a file called `config` (e.g. `nano config`)with the following lines:<br /><br />`Host = shell.sourceforge.net`<br />`User = your_sourceforge_login name`<br />`IdentityFile = ~/.ssh/osgps_dsa`<br /><br />`Host = cvs.sourceforge.net`<br />`User = your_sourceforge_login_name`<br />`IdentityFile = ~/.ssh/osgps_dsa`<br /><br />
+  - Test that this works by typing `ssh shell.sourceforge.net` Your login name should be automatically entered for you so all you should need to do is type in your password. Type `exit` to exit the sourceforge server.
+3. Now let's set up ssh to not prompt you for a password when you connect to this server. This is extraordinarily convenient, especially when you're checking code in and out a lot, so I'd very much recomment doing this. On your local machine, in the .ssh directory:
+  - Generate a private/public key pair by typing: `ssh-keygen -t dsa -f osgps_dsa` NOTE! Press "Enter" when prompted for a passphrase: **_In other words, don't enter a passphrase_**. You now should have two files in your `.ssh` directory, `osgps_dsa` which is your private (keep it that way!) key and `osgps_dsa.pub` which is your public key.
+  - Now we need to get the **_public_** key to sourceforget. Open up your **_public_** key, which in this example has been called `osgps_dsa.pub` in a text editor. It should be a single line of text, starting with something like "SSH-DSS". Copy that single line and paste it into the text box at <https://sourceforge.net/account/editsshkeys.php>. In about 6 hours, sourceforge will add your key to your account and you'll be up and running.
+4. After your infinitely long 6 hour wait, let's test that you are not prompted for a password when logging in by typing `ssh shell.sourceforge.net` If it still asks you for a password, something went wrong and you'll need to poke around to see what happened. If it just works, then hooray. Don't forget to `exit`.
+5. Finally, one last test: type `ssh cvs.sourceforge.net` and you should get a message from sourceforge that says:<br /><br />Welcome to cvs.sourceforge.net<br /><br />This is a restricted Shell Account<br />You cannot execute anything here.<br /><br />Connection to cvs.sourceforge.net closed.<br /><br />If you get this message, then you win! You're all set up. If it prompts you for a password, or you get another error, then you'll need to figure out what went wrong: check your config file, verify your username and password, etc.
+
+Whew! You're now set up with ssh!
+
+Note to unix/linux cvs users: you probably need to export CVS\_RSH and maybe a few other things. See [these notes](http://twiki.psas.pdx.edu/bin/view/PSAS/AvionicsCVSAccess) from the psas for exporting shell variables.
+
+Now, go set up your cvs. For unix/linux cvs users, you know what to do or it's in the docs, so I'm not going to bother to tell you. Hah.
+
+For WinCVS users, see the [[detailed setup guide|OsGpsWinCvs]].
+
+Finally, when you're all set up, you can get the code by typing:
+
+`cvs -z3 -d:ext:your_username@cvs.sourceforge.net:/cvsroot/osgps co -P osgps`

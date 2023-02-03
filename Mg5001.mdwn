@@ -1,0 +1,11 @@
+# <a name="SigTec MG5001 Receiver"></a><a name="_SigTec MG5001 Receiver"></a> SigTec MG5001 Receiver
+
+Product information: <http://www.signav.com.au/SignavDataFrame.html>
+
+This receiver is the focus of GPL-GPS since it's based on the GP4020 chipset, has a reasonable Flash/SRAM selection, and has most of the pins routed to a SMT 51-pin connector on the bottom of the receiver.
+
+**Testing the serial link to the MG5001 (requires commercial firmware):**
+
+Plug in the carrier board and MG5001, and make sure all switches are down towards "RUN". Run `minicom` (or Hyperterminal). Running at 9600bps, 8N1, send `$GPGPQ,GGA,1\r\n` which is the same as typing in the terminal `$GPGPQ,GGA,1{control-m}{control-j}` . You should start getting the `$GPGGA` message once a second which will confirm that all your serial hardware is working correctly.
+
+[[GP4020 MPC Setup for the MG5001|MpcForMG5001]]

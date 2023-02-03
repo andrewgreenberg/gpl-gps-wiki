@@ -1,0 +1,56 @@
+# GPL-GPS Software
+
+Setting up GPL-GPS is not trivial, and will take a bit of doing. Here's an overview of all the things you'll need to do to get up and running with GPL-GPS:
+
+1. Setup your PC to develop GPL-GPS Code
+  1. Get your host development environment set up (the arm-elf-gcc toolchain).
+  2. Download the latest eCos source code.
+2. Setup your MG5001 GPS receiver to do code development.
+  1. Get the eCos development environment set up and compile two flavors of RedBoot (one for RAM, one for ROM).
+  2. Load the RedBoot RAM image, and use it to burn the RedBoot ROM image onto the MG5001's flash.
+3. Develop GPL-GPS code for your application.
+  1. Get the GPL-GPS source code.
+  2. Compile eCos for use with GPL-GPS in RAM.
+  3. Compile the GPL-GPS code and link with the compiled eCos.
+  4. Download the code into the MG5001's RAM using gdb-stubs (which is in the RedBoot ROM image in the MG5001's flash).
+  5. Develop your code!
+4. Burn your code into the MG5001.
+  1. Recompile eCos for use with GPL-GPS in ROM.
+  2. Recompile your GPL-GPS code with the new eCos.
+  3. Use RedBoot ROM to burn the GPL-GPS/eCos ROM image into Flash.
+5. You're now done: when you power up the receiver, it runs your code!
+
+Work in progess:
+
+- [[GPL-GPS development under Windows 2000/XP|GpsWinDevGuide]].
+- [[GPL-GPS development under Linux|GpsLinuxDevGuide]].
+- [[GPL-GPS development under Mac OS X|GpsMacDevGuide]].
+
+----
+
+----
+
+_**Older things:**_
+
+## Non-GPS, Non-eCos code:
+
+- [[GpTogglePort]]: The Hello World of Gp4020-based GPS receivers! (Assembly language, uses boot loader)
+
+## eCos &amp; RedBoot for the GP4020:
+
+- [[RedBootOnTheMG5001]]: Getting your tools together, compiling redboot, and installing it on a GP4020 receiver (in this case, a MG5001)
+- [[ThreadsDemoOnTheMG5001]]: Compiling eCos, linking in a threads demo application, and running via gdb.
+
+## GPL-GPS Code:
+
+- [[GpsSvnAccess]]: Getting the GPL-GPS software
+- [[TarBalls]]: Getting binaries (and source) directly without CVS
+
+## SVN instructions
+
+GPL-GPS uses [SVN](http://subversion.tigris.org) for storing and versioning code. Here's a few resources for getting setup to run it:
+
+- Windows users: If you are a Windows user you can use [TortoiseSVN](http://tortoisesvn.tigris.org), which is an extention to Windows Explorer. A command line client is also available for Cygwin, if that is your prefered environment.
+- \*nix users: Subversion should be a part of you favourite distibution. If not you can get the source code from <http://subversion.tigris.org> and compile it your self.
+
+Both Windows and \*nix users should follow the instructions on [[GplGpsCvsAccess]] to get the current version of the GPL-GPS source code.

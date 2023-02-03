@@ -1,0 +1,5 @@
+# <a name="Parallel Port JTAG Interface Boa"></a> Parallel Port JTAG Interface Board
+
+The GP4020 has a JTAG interface built into it. We searched the web for a few different kinds of parallel port interfaces, and we're very happy with any of them so we decided to roll our own.
+
+08/29/2003: We just got the boards back from AP Circuits; we'll post schematics and pictures and board layout files once we test the board.

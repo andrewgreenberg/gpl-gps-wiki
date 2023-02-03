@@ -1,0 +1,158 @@
+# GPL-GPS Development on Windows 2000/XP Hosts
+
+This page describes how to do GPL-GPS on Windows 2000/XP hosts. While we strongly recommend that you do your GPL-GPS development under Linux, we understand that sometimes you just can't seem to find the Linux gurus to help you out and there's never enough time to get your system up and running. So for all of you Linux, weenies out there, here's the Windows development instructions. Note that you'll be battling with Windows Annoyances throughout this entire process, so be warned.
+
+[[toc levels="6"]]
+
+# Get CygWin
+
+- Go to <http://www.cygwin.com/> and download the their `setup.exe` program.
+- Run it, and install CygWin. In particular, you'll need to select some extra packages:
+  - Devel Packages
+    - CVS
+    - make
+    - patchutils
+    - subversion
+  - Editors
+    - nano (only if you're a VI wimp, like me :)
+  - Misc
+    - diff
+  - Net
+    - openssh
+  - Utils
+    - bzip2
+    - patch
+
+# Get the eCos Configuration Tools
+
+- Go to <http://www.ecoscentric.com/devzone/configtool.shtml> and get the latest `configtool` and `ecosconfig`.
+  - You can download it, or you can build it from source. In either case, follow the instructions on that page.
+- In CygWin, create two new folders, `/opt` and `/opt/tools`
+- Move the two executables into `/opt/tools`
+- I recommend renaming them to `configtool.exe` and `ecosconfig.exe`.
+- Add `/opt/tools` onto your path: `nano ~/.bash_profile` and add the following line at the bottom: `PATH="${PATH}":/opt/tools`
+
+# Get the latest eCos Source out of CVS
+
+- cd into `/opt`
+- Follow the directoins at <http://ecos.sourceware.org/anoncvs.html> to use CVS to get the latest eCos source.
+  - Yes, you've got the latest CVS, and no, you _don't_ want the Red Hat license version.
+- This will take a while!
+- rename the `ecos` folder to `ecos-cvs`.
+
+# Get the latest arm-elf toolchain
+
+- This is a matter of preference, really. A lot of people like to compile their toolchain... that's pretty much out of the scope of this document, so we'll leave youto your own demons on this one.
+- GPL-GPS has been tested with arm-elf-gcc v3.4.3 and v3.4.5.
+- I recommend going to <http://www.gnuarm.org/> and downloading the latest executables.
+  - gnuarm uses a Windows installer these days. Choose to extract your files to C:\\cygwin\\opt\\arm
+  - Choose NOT to install the CygWin DLL's, you've already got those.
+  - DON'T let it modify your path.
+- Add `/opt/arm/bin` onto your path: `nano ~/.bash_profile` and MODIFY the line you ALREADY entered so it is: `PATH="${PATH}":/opt/tools:/opt/arm/bin`
+
+# Get the latest GPL-GPS software
+
+(skip this step if you just grabbed the source out of the tarball)
+
+- In your home directory, type `svn co http://svn.psas.pdx.edu/svn/psas/trunk/gps` - this will make a directory called `gps` there.
+- For more info on subversion access, see [[this page|GpsSvnAccess]].
+
+# Setup the eCos Configtool
+
+- In CygWin, type `configtool`
+- It'll ask for the repository. Point it to `c:\cygwin\opt\ecos-cvs` (that is, the Windows path, not the CygWin path).
+  - If you need to change this, go to the Build menu, 'Repository' to change this.
+- Choose the Tools menu, Paths, Build Tools, and point it to `c:\cygwin\opt\arm\bin`
+  - It may warn you that it doesn't contain build tools - ignore this error.
+
+# Compile redboot\_ram
+
+(skip this step if you're just using the RedBoot binaries from the tarball)
+
+- In CygWin, cd to `~/gps/redboot/redboot_ram` and type `configtool redboot_ram.ecc &`
+  - If you get an error opening `redboot_ram.ecc`, then build the file manually:
+    - Choose Build, Template and choose 'GPS 4020' from the hardware drop down list. Then choose 'redboot' from the 'Packages' drop down. Hit OK and then Continue when the conflicts dialog pops up. It'll handle the conflicts automatically.
+    - Choose 'Import' from the File menu and import the file `/opt/ecos/ecos-cvs/packages/hal/arm/gps4020/current/misc/redboot_RAM.ecm`. This makes the final necessary tweaks to the gps4020/redboot template.
+    - Choose Save from the File menu and save that file in the directory you made above. I called it `redboot_ram.ecc`.
+- Choose the Build menu, Generate Build tree.
+- Chose the Build menu, Build Library.
+  - Annoyance: if you get a strange compilation error about 'lvalues', see: <http://sources.redhat.com/ml/ecos-discuss/2006-02/msg00299.html>.. you'll have to modify main.c by putting a local variable in (just do the first change to main.c in two locations, don't bother changing the macro).
+
+# Compile redboot\_rom
+
+(skip this step if you're just using the images from the tarball)
+
+- In CygWin, cd to `~/gps/redboot/redboot_rom` and type `configtool redboot_rom.ecc &`
+  - If you get an error opening `redboot_ram.ecc`, then build the file manually:
+    - Choose Build, Template and choose 'GPS 4020' from the hardware drop down list. Then choose 'redboot' from the 'Packages' drop down. Hit OK and then Continue when the conflicts dialog pops up. It'll handle the conflicts automatically.
+    - Choose 'Import' from the File menu and import the file `/opt/ecos/ecos-cvs/packages/hal/arm/gps4020/current/misc/redboot_ROM.ecm`. This makes the final necessary tweaks to the gps4020/redboot template.
+    - Choose Save from the File menu and save that file in the directory you made above. I called it `redboot_rom.ecc`.
+- Choose the Build menu, Generate Build tree.
+- Chose the Build menu, Build Library.
+  - Now, if you get a strange compilation error about 'lvalues', see: <http://sources.redhat.com/ml/ecos-discuss/2006-02/msg00299.html>.. you'll have to modify main.c by putting a local variable in (just do the first change to main.c in two locations, don't bother changing the macro).
+
+# Connect and verify the connection to the MG5001
+
+- Put the 'fresh' MG5001 on the development board
+- Plug in the development board - LED #7 should blink at 1 Hz.
+- Connect UART1 to your PC's serial port (yes, you should be able to use a USB to serial converter).
+- You'll need a windows serial port 'hyperterminal'-like program. I STRONGLY recommend you use [TeraTerm](http://hp.vector.co.jp/authors/VA002416/teraterm.html) - it's old, but it's totally solid.
+- Open [[TeraTerm]], select 'Serial'.
+- Choose 'Setup', 'Serial Port'.
+- Choose the correct port for your PC, 9600 'baud', 8 bit data, no parity, 1 stop bit, and Flow Control should be off.
+- Type (You won't see your typing on the screen) `$GPGPQ,GGA,1` and then hit control-m and then control-j.
+- You should start to see NMEA $GGA messages start scrolling down the screen at 1 Hz. This confirms you have a connection to the device.
+
+# Save a copy of the MG5001's commercial firmware
+
+- More soon on this - use arm-elf-gdb, using /dev/com1
+
+# Upload redboot\_ram into the MG5001's RAM
+
+Thanks to Tak, who's Hyperterminal instructions this is based on: <http://www.geocities.com/tebinuma/osgps/redboot.html> . He also has pretty pictures, to boot ;)
+
+- Open TeraTerm, go to 'Setup', 'Serial Port', and choose `57600, 8, None, 1, Off`.
+- Switch the boot pin to 'Load' and hit Turn on your MG5001 receiver with the boot pin set to "LOAD" (i.e. set MULTI\_FNIO high during a reset).
+- Hit the reset button (or hit the switch).
+- Choose 'File;, 'Send File...'.
+- BE SURE TO CLICK THE 'Binary' OPTION AT THE BOTTOM OF THIS DIALOG.
+- Choose Tak's `ram_download.bin` file, located in `/gps/redboot/bootstrap` (which would be `c:\cygwin\home\<user>\gps\redboot\bootstrap`).
+- It should take about a second, and the LED #7 should turn off if it worked correctly. It should print a message that says `Ready to download >>` but it doesn't always print.
+- Choose 'File', 'Send File...' and now choose the redboot\_ram image, usually `c:\cygwin\home\<user>\gps\redboot\redboot_ram\redboot_ram_instal\bin\redboot_ram.bin`.
+- After about 30 seconds, the download should end (it might pause for a while), and you should see the `RedBoot>` prompt.
+- Type 'help' and verify that you can talk to redboot.
+
+# Burn redboot\_rom into the MG5001's flash
+
+In TeraTerm, type
+
+    RedBoot> load -r -b 0x20020000 -m xmodem
+    CRaw file loaded 0x20020000-0x2002e7d7, assumed entry at 0x20020000
+    xyzModem - CRC mode, 465(SOH)/0(STX)/0(CAN) packets, 7 retries
+
+- In TeraTerm, choose File, Transfer, xmode, send.
+- Select `C:\cygwin\home\<user>\gps\redboot\redboot_rom\redboot_rom_install\bin\redboot_rom.bin`
+- You should see the xmodem status update as the RedBoot ROM image loads.
+
+And then finally, to burn the file into flash:
+
+    RedBoot> fis write -f 0x60000000 -b 0x20020000 -l 0x10000
+    * CAUTION * about to program FLASH
+                at 0x60000000..0x6000ffff from 0x20020000 - continue (y/n)? y
+    ... Erase from 0x60000000-0x60010000: .
+    ... Program from 0x20020000-0x20030000 at 0x60000000: .
+    RedBoot>
+
+Now powercycle or reset the the receiver and you should get:
+
+    RedBoot(tm) bootstrap and debug environment [ROM]
+    Non-certified release, version UNKNOWN - built 00:44:46, Mar 30 2005
+
+    Platform: GPS-4020 (ARM7TDMI)
+    Copyright (C) 2000, 2001, 2002, 2003, 2004 Red Hat, Inc.
+
+    RAM: 0x20000000-0x20040000, [0x200059c0-0x20040000] available
+    FLASH: 0x60000000 - 0x60040000, 4 blocks of 0x00010000 bytes each.
+    RedBoot>
+
+CONGRATULATIONS! You've just installed the RedBoot boot loader onto your GPS receiver. Now we can move on to the eCOS and GPS side of things!

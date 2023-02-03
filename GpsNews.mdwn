@@ -1,0 +1,531 @@
+# <a name="GPL-GPS News"></a> GPL-GPS News
+
+<table cellspacing=10>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2006/09/30</strong></td>
+    <td>
+      <p> ION GNSS 2006 was held in Ft. Worth, TX this week. Doug Baker had his GPS Creations, LLC booth which hosted [[OpenSource]] GPS (OSGPS), the x86 PC w/GP2021 correlator project, and GPL-GPS. It was great fun - as always, we got to talk to hundreds of people and show off our projects. People were very interested this year... in fact, there was a big change this year: instead of people asking &#39;what&#39;s open source?&#39; they were asking &#39;what features do you have?&#39; which I think is a good sign. There were several open GNSS papers presented at ION GNSS, including one on the Linux port of OSGPS.<br>
+        <br> I taught a class on GPL-GPS to six people down in Texas as one of GNSS Solution&#39;s nine seminars. The class went very well, and I think several of the people attending the class will actually start to use GPL-GPS.<br>
+        <br> Cliff, Rick Niles, and I hung out and talked open souce GPS receiver projects for two days. Rick and Cliff have made a tremendous amount of progress in OSGPS: with the 2.0 release, I can say that their software really does come up to a commercial quality receiver. And OSGPS now has tons of features that GPL-GPS lacks: atmospheric corrections, carrier phase, better tracking loops, almanacs, etc. So we discussed trying to merge the OSGPS and GPL-GPS code bases as much as possible. I&#39;m going to look into this a bit - I think it&#39;s a good idea, except that there&#39;s a <strong>tremendous</strong> difference between a 1 GHz 64 bit Linux box and a MG5001. :) So we&#39;ll have to use tricks, including a partially separate code base for GPL-GPS and lots of &quot;#define embedded&quot; types of things.<br>
+        <br> I am currently killing even more brain cells soldering up the carrier boards. Sorry for the delay, everyone who&#39;s waiting!<br>
+        <br> I&#39;ve also begun work on a USB-only carrier board using the FTDI 2232 chip. More news soon. </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2005/09/21</strong></td>
+    <td> GPL-GPS now has a [[GplGpsPapersIon2005]] in the Proceedings of ION GNSS 2005.</td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2005/09/16</strong></td>
+    <td>[[IonGnss2005]] hosted by <a href="http://www.gpscreations.com/" target="_top">GPS Creations</a> at the ION GNSS 2005 conference. It was tremendously successful: we talked with literally hundreds of people in the GNSS community, four papers were independently published on open GNSS projects, and for the first time, open GNSS projects are on the radar screen of the community. <br>
+      <br> I&#39;ve added a [[OpenGnssProjects]] - please let me know if I can add yours to the list! </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2005/07/20</strong></td>
+    <td> Cliff has set up a booth for all open source GPS projects at ION GNSS 2005: here&#39;s the [[IonGnss2005]]. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2005/07/18</strong></td>
+    <td> Tak is running simulations on GPL-GPS/ARMGPS code for the high dynamics receiver code we&#39;ll use for the August 20th launch of LV2. So far, results look good. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2005/05/17</strong></td>
+    <td> We&#39;ve fixed some major bugs, and are now starting to concentrate on implmeneting features, including GP4020-based performance enhancements, and the beginings of external interfaces to the code. In other news: Andrew turns in his [[GpsResources]]. Hooray! </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2005/05/02</strong></td>
+    <td> Voila! We started to get stable position fixes, with errors down in the 10&#39;s to 100&#39;s of meters. Hooray! Now on to the fine tuning: this means reimplementing features we&#39;ve ripped out (mainly carrier phase, almanac processing, etc) and to do more optimizing for the [[ARM7TDMI]] processor. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2005/05/01</strong></td>
+    <td> Well THAT took 20 days longer than we wanted ;) GPL_GPS is now doing positioning! The error is terrible - like 100&#39;s of km - but it&#39;s (kind of) working. More debugging to do, I suppose. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2005/04/11</strong></td>
+    <td> GPL_GPS is now locking onto satellites. Thanks to Tak and Cliff&#39;s great code, even idiots like us can do GPS! The next week or so will be devoted to improving the lock algorithm, breaking out the navigation message into its own thread, and producing pseudoranges. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2005/03/30</strong></td>
+    <td> Instructions for getting RedBoot and an eCOS threads demo on the MG5001 have been posted! </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2005/02/22</strong></td>
+    <td> After 7 months of delay due to Real Life(tm), I&#39;m now official in thesis mode and thus I now have time for GPL-GPS. I need to be done in late April (!) so wish me luck, I&#39;m gonna need it. I&#39;ll be updating the site frequently over the next few months. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>2004</strong></td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2004/11/05</strong></td>
+    <td> Tak gets ARMGPS up and running! Go Tak Go! </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2004/05/27</strong></td>
+    <td> Ouch, that took a lot of head pounding. I finally got eCos compiled (into a library), linked in to a demo application that used two threads, and then ran it using gdb on my host pc and gdbstubgs running in RedBoot. Hoooray! This means I&#39;m on my way: now on to exploring the eCos world and then importing OpenSourceGPS. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2004/05/17</strong></td>
+    <td> RedBoot now runs on the MG5001: you can get everything you need from eCos&#39; CVS. A giant thank you to Gary Thomas! </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2004/05/17</strong></td>
+    <td> I&#39;m ramping back up on the project: trying to get eCOS ported, working with Gary Thomas. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>2003</strong></td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2003/09/12</strong></td>
+    <td> GPL-GPS paper withdrawn from ION GPS/GNSS 2003 conference: Since I was never able to present my alternate presentation, and the GPL-GPS software isn&#39;t where I want it to be, I decided to withdraw my paper from ION GPS/GPSS 2003. Although disapointed, I think it&#39;s just best that I wait for quality over quantity. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>[[IonGnss2003]]</strong></td>
+    <td> First meeting of the Open Source GPS community at ION GPS/GNSS 2003. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2003/08/29</strong></td>
+    <td> It&#39;s official: Thursday, September 11th, 2003, the open source GPS community will be meeting at the Oregon convention center from 5:30 - ?. Then we&#39;re all going out to the Bridgeport pub for beer and food. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2003/08/27</strong></td>
+    <td> TWO WEEKS until the ION 2003 talk on GPL-GPS! Panic panic panic. Got any ideas on what I should say? Seriously, I&#39;d like to hear what you would like me to say about the project. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2003/08/25</strong></td>
+    <td> eCos port is going extremely slowly, and preventing any interesting work on the GPS side of things. Very disappointing! Embedded programming is fun... but not easy. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2003/08/20</strong></td>
+    <td> The next generation of the SigTec MG5001 GPS receiver development boards are ready and waiting for fabrication... this time without those stupid errors (we hope). Still working on redboot and eCos port. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2003/07/13</strong></td>
+    <td> Bad news: the carrier board is broken in several ways. If other boards are done for the rocket project this week, then we&#39;ll do another revision next week. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2003/07/11</strong></td>
+    <td> Got the MG5001 carrier board back from APC! </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2003/07/08</strong></td>
+    <td> Laid out a development board for the SigTec MG5001 receiver while in Mexico. Never, ever, ever try and lay out a board without a printer (for doing a sanity check) and an internet connection. Sheesh. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2003/06/19</strong></td>
+    <td> Revamped site: added more general free and open source GPS receiver software pages. I think I&#39;m trying to make this site a central point for open source GPS work. Wish me/us/everyone luck. Many thanks to [[Main/JamesPerkins]] for helping set up this TWiki site! </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>2003/04/06</strong></td>
+    <td> Just created this [[web site|index]]. Getting ready to port eCos and OpenSource GPS to the GP4020. I&#39;m using the SigTec MG5001 receiver board for $140 which is available (unfortunately) only through them. </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      </p>
+    </td>
+  </tr>
+</table>

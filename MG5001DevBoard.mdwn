@@ -1,0 +1,70 @@
+# <a name="Development/Carrier Board for _S"></a> Development/Carrier Board for SigTec's MG5001 OEM GPS Receiver
+
+<div>
+  <center>[[MG5001DevBoard/mg5001_carrier.jpg]]</center>
+</div>
+
+To facilitate software development, we made a small carrier board for the SigTec Navigation MG5001 GPS receiver. It breaks out the MG5001's 51 pin connector into 0.1" pin headers, also and has:
+
+- A 3.3V logic to RS232 converter.
+- 5V and 3.3V linear regulators (needs a &gt; 7V DC power supply with two bare wires (euroterm block) or a coaxial 2.1mm connector).
+- A small prototyping area.
+- Switches for enabling JTAG debugging, enabling the UART boot loader, and holding the board in reset.
+- LEDs showing the receiver's GPIO states.
+
+If there's a demand I'll go ahead and do another board run to get more for people. Since they're not free to produce, I'll have to charge you the cost of the PCB and shipping, but it shouldn't be more than about US $20 per board. If there's a _lot_ of demand, I'll also put together parts kits or even do a run of prebuilt boards... but hey, the PCB design files are down below, so feel free to do this yourself!
+
+## <a name="User&#39;s Manual(!)"></a> User's Manual(!)
+
+> **MG5001 Switches:**
+>
+> 1. The `RST` switch: when up towards "RST" the MG5001 is being held in reset. When down towards "RUN" the MG5001 is running.
+> 2. The `LOAD` switch: when up towards "LOAD", the GP4020 chip will go into "boot loader mode" on power up or when it comes out of reset. For more information on the boot loader, see the GP4020 datasheets. When down towards "RUN", the GP4020 boots out of flash memory.
+> 3. The `DBG` switch: When up towards "DBG", enables the JTAG interface on the GP4020 and waits for a JTAG command. When down towards "RUN", the GP4020 runs normally.
+>
+> **Power:**
+>
+> Voltage: Give it anything &gt; 7V and &lt; 15V.<br /> Current: Draws 190mA, max.
+>
+> Try to choose a voltage as close to 7V as you can - it keeps the heat dissipated off the 5V linear regulator down. In fact, some "6V", &gt;250mA adapter will work just fine since they usually give more voltage when not drawing their maximum current.
+>
+> **GPIO LEDs:**
+>
+> The jumper by the LEDs needs to be shorted in order to enable the LEDs.
+>
+> Note that the commercial MG5001 firmware floats all of the GPIO pins except for GPIO 7 which it blinks at 1Hz. And the MG5001 board has pullups to Vcc on the board, so all of the LEDs will naturally come on when the MG5001 is plugged in.
+>
+> **0\.1" pin headers:**
+>
+> I tried to bring out all of the useful pins from the 51 pin header and group them in some decent way. Please refer to the schematic for the layout.
+>
+> **RS-232 Line Converters:**
+>
+> See the [[MG5001 GPS receiver|Mg5001]] page on how to send a test string to the MG5001's commercial firmware... that will at least allow you to make sure the level converter chip (the MAX3232) is working correctly.
+
+## <a name="MG5001 Carrier Version Informati"></a> MG5001 Carrier Version Information
+
+<table border=1 cellpadding=0 cellspacing=0>
+  <tr>
+    <td> Version 9 TODO </td>
+    <td> Add a reset pushbutton. The switch is too clunky. Move the swithces away from the DB9 connector. Get the exact spacing for the MG5001 screw holes. BOM: better stand offs... for the stupid 4.3mm connector... custom standoffs? More room for the SMT 10uF caps if used in place of the 10uF through holes. Larger clearances for the #4 washers. Maybe use a resistor array and bargraph for the GPIO LEDs? </td>
+  </tr>
+  <tr>
+    <td> Version 8 </td>
+    <td> Minor change: made the prototyping area holes 0.042&quot; instead of 0.035&quot;. The v8 ZIP file contains the EAGLE schematic, layout, bill of materials, and PDF schematic. Note that the bill of material may not have the value of every component listed; email me if you need more info. In particular, the TI [[MAX3232CDR]] should in fact be a [[MAX3232CDWR]] - on the board, the pads are for a <em>wide</em> SOIC and of course I spec&#39;d the normal skinny SOIC. Sigh. </td>
+  </tr>
+  <tr>
+    <td> Version 7 </td>
+    <td> First release version. Works like a charm! Didn&#39;t find any errors. However, the screw locations that hold the MG5001 I don&#39;t think are in quite the right place... I&#39;ll have to get info from [[SigTec]] to fix that. The v7 ZIP file contains the EAGLE schematic, layout, and Gerber files. </td>
+  </tr>
+  <tr>
+    <td> Versions 6 </td>
+    <td> First prototype, done while on vacation in Mexico without an internet connection. Bad, bad, bad idea. Board turned out to barely work, but was mostly useless due to the large number of hacks. </td>
+  </tr>
+  <tr>
+    <td> Version &amp;lt; 5 </td>
+    <td> Development versions. </td>
+  </tr>
+</table>
+
+## <a name="Attachments"></a> Attachments

@@ -1,0 +1,40 @@
+# <a name="GPL-GPS Hardware"></a> GPL-GPS Hardware
+
+## <a name="GPS Chipset"></a> GPS Chipset
+
+GPL-GPS is currently only supports the [Zarlink](http://www.zarlink.com/) GP4020 GPS receiver chip, which is an [[ARM7TDMI]] 32 bit processor with an on-chip GPS correlator peripheral. The chip was previously owned by Mitel, and then previously owned before that by GEC Plessey.
+
+- [GP4020](http://products.zarlink.com/product_profiles/GP4020.htm) home page
+- [[Cheat sheet|GP4020CheatSheet]] for the GP4020 - Things That Aren't Obvious.
+- [GP2015](http://products.zarlink.com/product_profiles/GP2015.htm) GPS RF front end, which takes the 1.575GHz signal, downconverts, and spits it out as a ~ 5MHz 2 bit digital signal.
+
+What about other GPS chipsets? We're currently eyeing the Nemerix chipset since it has a embedded LEON (open source SPARC v8) processor, which already has eCos ported to it. We'll _eventually_ get to that, but first we'll finish polishing the GP4020 port which, uh, may take a while. heh.
+
+We'd really love to do a version of GPL-GPS to other chipset manufacturers, like SiRF or Trimble. However, first these chipset manufacturers will need to release the documentation on their chips in some open way; e.g., release their datasheets to the web. Then we'd gladly port the GPL-GPS code. Unfortauntely, these chipsets now currently require a NDA and an ungodly expensive development kit if you want to use them. And then, of course, because of the NDA you can't share your work with others.
+
+## <a name="GPS Receivers"></a> GPS Receivers
+
+GPL-GPS software development is focussed on [SigTec Navigation's](http://www.signav.com.au/) MG5001 OEM (Original Equipment Manufacturer) GPS receiver. OEM means it's a circuit boad and nothing else: no keyboard, display, no antenna, etc. We chose the MG5001 because of it's nice layout, decent memory layout, and access to many of the GP4020's pins via a 51 pin connector.
+
+GPL-GPS, however, should work on just about any Zarlink GP4020-based receiver. Some of these receivers are:
+
+- [SigTec Navigation MG5001](http://www.signav.com.au/SignavDataFrame.html): Official GPL-GPS receiver. ([[Here are some notes on the MG5001 receiver|Mg5001]]).
+- [SigTec Navigation MG5003](http://www.signav.com.au/SignavDataFrame.html): A smaller receiver (boots from serial EEPROM!), but no 51 pin connector.
+- [Novatel (was CMC) SUPERSTAR II](http://www.novatel.com/Products/superstar.asp): A very nice GP4020-based board, but no 51 pin connector.
+
+## <a name="Development boards"></a> Development boards
+
+Usually you need more than just the GPS board - you need a "carrier" board with power supplies and RS-232C line converters, maybe even a USB to serial converter onboard. Here are our open hardware development, or carrier boards:
+
+- [[SigNav MG5001/3 Development Board Rev. 2|MG5001DevBoard2]]: An improved open hardware development board.
+- [[SigTec MG5001 Receiver Development Board|MG5001DevBoard]]: An open hardware development board/carrer for SigTec Navigation's MG5001 GPS recevier
+- [[Parallel port to JTAG Interface|GpsJtag]]: A board to connect a PC's parallel port to the JTAG pins on the GP4020.
+
+## <a name="Other cool Hardware"></a> Other cool Hardware
+
+- +20dB in-line GPS amplifer: <http://www.wi-sys.com/products/accessories/2901.php>
+- In-line RF switch: <http://www.wi-sys.com/products/accessories/2803.php>
+- 1-3GHz bias T: <http://www.wi-sys.com/products/accessories/2902.php>
+- Poor website, but lots of GPS stuff: <http://www.gpssource.com/>
+- Spiral antennas: <http://www.sarantel.com/>
+- Decent pole mounted external antenna: the Garmin GA 29 - can't find a website on the garmin site for it, though

@@ -1,0 +1,5 @@
+# <a name="OpenSource GPS Software"></a><a name="_OpenSource GPS Software"></a> OpenSource GPS Software
+
+Please refer to the current OpenSource GPS homepage for current software and project status:
+
+<http://home.earthlink.net/~cwkelley/>

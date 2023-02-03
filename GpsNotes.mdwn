@@ -1,0 +1,21 @@
+# <a name="Project Notes"></a> Project Notes
+
+## <a name="2006/09/25"></a> 2006/09/25
+
+I'm currently teaching a class on GPL-GPS!
+
+## <a name="2006/01/13"></a> 2006/01/13
+
+Working on "improving" [[MoinMoin]]... you can see my change requests here: [[MoinMoinChanges]]
+
+## <a name="2005/05/03"></a> 2005/05/03
+
+We're running a comparison of the MG5001 OEM software and GPL-GPS. We're going to get our butts kicked, since we have no fancy-pants features, but that's fine, I need this for my thesis _right now_. Defense this Friday, yikes! Here's a [[short run of data|GpsNotes/gpl-gps_log_1.txt]] from the log feature ('l' which runs the display\_log() function from position.c). Here's some [[ECEF data|GpsNotes/sigtec_log_2005-05-03-0.txt]] from the sigtec firmware.
+
+## <a name="2005/05/02"></a> 2005/05/02
+
+Created this "notes" page. Less pretentious than "project log" ;). First fix of GPL-GPS! Here's a picture to prove it. Oh. Darn. Ignore the date, a bug in the clock bias correction (since fixed) caused the time to jump around, sometimes by years. Whoops.
+
+<div>
+  <center>[[first_fix.png]]</center>
+</div>

@@ -1,0 +1,26 @@
+# GPL-GPS development on Linux hosts
+
+This page describes how to GPL-GPS development on Linux hosts. Most of these settings should also apply to other Unix like systems (BSD, Solaris), but this has not been verified. The following instructions assume that you have already obtained the necessary hardware and that you are familiar with common \*nix tools.
+
+## Setup your PC to develop GPL-GPS Code
+
+### Get eCos
+
+First you have have to get the eCos real time operating system (run-time support) that GPL-GPS runs on top of. This can be downloaded from <http://ecos.sourceware.org>. Follow the instructions on [this page](http://ecos.sourceware.org/getstart.html), and remember to install the arm-elf tool chain.
+
+After that you need to get the CVS version of eCos to get support for the GP4020. Follow the instructions here: <http://ecos.sourceware.org/anoncvs.html>. Download the CVS version to the same folder where you installed eCos (`/opt/ecos`). This should create a folder named `/opt/ecos/ecos-cvs`. Rename this to `ecos`.
+
+## Setup your MG5001 GPS receiver to do code development
+
+FIXME!
+
+## Develop GPL-GPS code for your application
+
+### Get GPL-GPS
+
+Once eCos is in place you have to the the GPL-GPS source code. There are two ways to get the source code:
+
+1. Check out the source code from the version control system: [[GpsSvnAccess]]
+2. Download a snapshot: [[TarBalls]]
+
+It is recommended to use the source code from the version control system.
